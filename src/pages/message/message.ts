@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 
+import { HomePage } from '../home/home';
+
 
 @Component({
   selector: 'page-message',
@@ -15,29 +17,33 @@ export class MessagePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
     this.token = localStorage.getItem('token');
-  	this.load();
+    this.load();
+  }
+
+  getHeader() {
+    let headers = new Headers();
+    headers.append('token', this.token);
+
+    return headers;
   }
 
   load() {
-  	let headers = new Headers();
-  	headers.append('token', this.token);
-    this.http.get('http://cesi.cleverapps.io/messages',{headers: headers}).subscribe(res => {
+    this.http.get('http://cesi.cleverapps.io/messages',{headers: this.getHeader()}).subscribe(res => {
     	this.messages = res.json();
     }, (err) => {
-    	alert(err);
+    	this.signout();
     });
   }
 
   postMessage() {
-  	let headers = new Headers();
-  	headers.append('token', this.token);
+  	let headers: Headers = this.getHeader();
   	headers.append('Content-Type', 'application/x-www-form-urlencoded');
   	let body = 'message='+this.msg;
   	this.http.post('http://cesi.cleverapps.io/messages', body, {headers: headers}).subscribe(res => {
   		this.msg = '';
   		this.load();
   	}, (err) => {
-  		alert(err);
+  		this.signout();
   	});
   }
 
@@ -46,6 +52,11 @@ export class MessagePage {
     setTimeout(() => {
       refresher.complete();
     }, 200);
+  }
+
+  signout(){
+    localStorage.clear();
+    this.navCtrl.setRoot(HomePage);
   }
 
 }

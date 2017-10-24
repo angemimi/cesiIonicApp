@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>message</ion-title>
+    <ion-buttons end>
+    	<button ion-button (tap)="signout()">
+    		<ion-icon name="md-log-out"></ion-icon>
+    	</button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -35,8 +40,10 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-		<ion-label stacked>Your message</ion-label>
-		<ion-input type="text" name="message" [(ngModel)]="msg" style="width: 50%;"></ion-input>
-		<button ion-button (click)="postMessage()"><ion-icon name="send"></ion-icon></button>
+		<form (submit)="postMessage()">
+			<ion-label stacked>Your message</ion-label>
+			<input type="text" name="message" [(ngModel)]="msg" style="width: 50%;">
+			<button ion-button><ion-icon name="send"></ion-icon></button>
+		</form>
   </ion-toolbar>
 </ion-footer>

@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 
-/**
- * Generated class for the UsersPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-users',
@@ -33,7 +28,7 @@ export class UsersPage {
   	this.http.get('http://cesi.cleverapps.io/users', {headers: this.getHeader()}).subscribe( res => {
   		this.users = res.json();
   	}, (err) => {
-  		alert(err);
+  		this.signout();
   	});
   }
 
@@ -42,6 +37,11 @@ export class UsersPage {
     setTimeout(() => {
       refresher.complete();
     }, 200);
+  }
+
+  signout(){
+    localStorage.clear();
+    this.navCtrl.setRoot(HomePage);
   }
 
 }

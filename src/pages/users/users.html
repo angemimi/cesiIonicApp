@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>users</ion-title>
+    <ion-buttons end>
+    	<button ion-button (tap)="signout()">
+    		<ion-icon name="md-log-out"></ion-icon>
+    	</button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -31,6 +36,9 @@
 	      <img src="{{usr.urlPhoto}}">
 	    </ion-avatar>
 	    <h5>{{usr.username}}</h5>
+	    <ion-note end-item>
+	    	{{usr.date | date : 'HH:mm dd/mm/yyyy'}}
+	    </ion-note>
 		</ion-item>
 	</ion-list>
 </ion-content>

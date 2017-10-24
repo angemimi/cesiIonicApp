@@ -16,7 +16,11 @@ export class HomePage {
 	pwd: String;
 
   constructor(public navCtrl: NavController, public http: Http, public toastCtrl: ToastController) {
-
+  	if((localStorage.token != null) && (typeof localStorage.token != 'undefined')){
+  		this.navCtrl.push(TabsPage, {
+        token: localStorage.token 
+      });
+  	}
   }
 
   doSubmit(){
