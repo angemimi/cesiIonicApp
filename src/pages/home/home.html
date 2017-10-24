@@ -7,8 +7,10 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <input type="text" [(ngModel)]="name">
+  <button ion-button (click)="goToMessages()">Message</button>
+  <button ion-button (click)="clickHello()" color="ligth">Hello</button>
+  <button ion-button (click)="clickPing()" color="ligth">Ping</button>
+
+  <p>{{displayName}}<br>{{pong}}</p>
 </ion-content>
