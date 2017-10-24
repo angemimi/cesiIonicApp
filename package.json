@@ -24,6 +24,12 @@
     "@ionic-native/splash-screen": "4.3.2",
     "@ionic-native/status-bar": "4.3.2",
     "@ionic/storage": "2.0.1",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
     "ionic-angular": "3.7.1",
     "ionicons": "3.0.0",
     "rxjs": "5.4.3",
@@ -33,6 +39,8 @@
   "devDependencies": {
     "@ionic/app-scripts": "3.0.1",
     "@ionic/cli-plugin-ionic-angular": "1.4.1",
+    "bower": "^1.8.2",
+    "gulp-util": "^3.0.8",
     "typescript": "2.3.4"
   },
   "description": "An Ionic project"

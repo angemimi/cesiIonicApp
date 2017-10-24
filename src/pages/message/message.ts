@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Http, Headers } from '@angular/http';
 
-/**
- * Generated class for the MessagePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-message',
@@ -14,18 +9,43 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class MessagePage {
 	
-	token: String;
+	token: any;
+	messages: any = [];
+	msg: String;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  	this.token = navParams.get('token');
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+    this.token = localStorage.getItem('token');
+  	this.load();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MessagePage');
+  load() {
+  	let headers = new Headers();
+  	headers.append('token', this.token);
+    this.http.get('http://cesi.cleverapps.io/messages',{headers: headers}).subscribe(res => {
+    	this.messages = res.json();
+    }, (err) => {
+    	alert(err);
+    });
   }
 
-  displayToken(){
-  	alert(this.token);
+  postMessage() {
+  	let headers = new Headers();
+  	headers.append('token', this.token);
+  	headers.append('Content-Type', 'application/x-www-form-urlencoded');
+  	let body = 'message='+this.msg;
+  	this.http.post('http://cesi.cleverapps.io/messages', body, {headers: headers}).subscribe(res => {
+  		this.msg = '';
+  		this.load();
+  	}, (err) => {
+  		alert(err);
+  	});
+  }
+
+  doRefresh(refresher) {
+    this.load();
+    setTimeout(() => {
+      refresher.complete();
+    }, 200);
   }
 
 }

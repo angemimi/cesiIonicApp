@@ -7,10 +7,16 @@
 </ion-header>
 
 <ion-content padding>
-  <input type="text" [(ngModel)]="name">
-  <button ion-button (click)="goToMessages()">Message</button>
-  <button ion-button (click)="clickHello()" color="ligth">Hello</button>
-  <button ion-button (click)="clickPing()" color="ligth">Ping</button>
-
-  <p>{{displayName}}<br>{{pong}}</p>
+	<form (submit)="doLogin()">
+		<ion-item>
+			<ion-label>Username</ion-label>
+			<ion-input type="text" [(ngModel)]="username" name="username"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label>Password</ion-label>
+			<ion-input type="password" [(ngModel)]="pwd" name="pwd"></ion-input>
+		</ion-item>
+		<button ion-button type="submit">Sign in</button>
+	</form>
+	<button ion-button (click)="doSubmit()">Sign up</button>
 </ion-content>

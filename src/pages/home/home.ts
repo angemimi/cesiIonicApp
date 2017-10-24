@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { Http } from '@angular/http';
+import { NavController, ToastController } from 'ionic-angular';
+import { Http, Headers } from '@angular/http';
 
-import { MessagePage } from '../message/message';
+import { SignupPage } from '../signup/signup';
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-home',
@@ -11,36 +12,37 @@ import { MessagePage } from '../message/message';
 
 export class HomePage {
 
-	name: String;
-	displayName: String;
-	pong: String;
+	username: String;
+	pwd: String;
 
-  constructor(public navCtrl: NavController, public http: Http) {
+  constructor(public navCtrl: NavController, public http: Http, public toastCtrl: ToastController) {
 
   }
 
-  goToMessages() {
-  	this.navCtrl.push(MessagePage, {token:'123456789'});
+  doSubmit(){
+  	localStorage.setItem('token', '123456789');
+  	this.navCtrl.setRoot(SignupPage);
   }
 
-  clickHello() {
-  	this.http.get('http://cesi.cleverapps.io/hello?name='+this.name)
-  	.subscribe(res => {
-  		this.displayName = res.text();
+  doLogin(){
+  	let body = 'username='+this.username+'&pwd='+this.pwd;
+
+  	let headers = new Headers();
+  	headers.append('Content-Type', 'application/x-www-form-urlencoded');
+  	this.http.post('http://cesi.cleverapps.io/signin',body, {headers:headers}).subscribe( res => {
+  		this.navCtrl.push(TabsPage, {
+        token: res.json().token 
+      });
   	}, (err) => {
-  		console.log(err);
-  		alert('error call HTTP hello '+ err);
-  	});
-  }
+  		let toast = this.toastCtrl.create({
+  			message: 'Authentication error',
+  			duration: 3000,
+	      position: 'top',
+	      dismissOnPageChange: true
+  		});
 
-  clickPing() {
-  	this.http.post('http://cesi.cleverapps.io/ping',{})
-  	.subscribe(res => {
-  		this.pong = res.text();
-  	}, (err) => {
-  		console.log(err);
-  		alert('error call HTTP ping '+ err);
-  	});
+  		toast.present();
+  	})
   }
 
 }
